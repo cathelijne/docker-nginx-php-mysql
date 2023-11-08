@@ -4,12 +4,13 @@
   "extends": [
     "config:recommended",
     ":semanticCommits"
-  ]
-},
-{
-  "fileMatch": [
-    "(^|/)([\\w-]*)composer\\.json$",
-    "(^|/)([\\w-]*)composer\\.json.dist$"
   ],
-  "versioning": "composer"
+  "composer": {
+    "enabled": true,
+    "fileMatch": [
+      "(^|/)([\\w-]*)composer\\.json$",
+      "(^|/)([\\w-]*)composer\\.json.dist$"
+      ],
+      "versioning": "composer"
+    }
 }
