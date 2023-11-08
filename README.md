@@ -231,7 +231,7 @@ ___
 ___
 
 <details>
-<summpary>## OPTIONAL: Use Makefile (needs make installed)</summary>
+<summpary>## OPTIONAL Use Makefile (needs make installed)</summary>
 
 When developing, you can use [Makefile](https://en.wikipedia.org/wiki/Make_(software)) for doing the following operations :
 
