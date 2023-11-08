@@ -57,6 +57,12 @@ The following is optional but makes life more enjoyable :
 which make
 ```
 
+On MacOS, you can install `make` with the following command :
+
+```sh
+brew install automake
+```
+
 On Ubuntu and Debian these are available in the meta-package build-essential. On other distributions, you may need to install the GNU C++ compiler separately.
 
 ```sh
@@ -231,9 +237,9 @@ ___
 ___
 
 <details>
-<summpary>## OPTIONAL Use Makefile (needs make installed)</summary>
+<summpary>## OPTIONAL Use Makefile</summary>
 
-When developing, you can use [Makefile](https://en.wikipedia.org/wiki/Make_(software)) for doing the following operations :
+When developing, you can use [Makefile](https://en.wikipedia.org/wiki/Make_(software)) for doing the following operations:
 
 | Name          | Description                                  |
 |---------------|----------------------------------------------|
