@@ -5,4 +5,11 @@
     "config:recommended",
     ":semanticCommits"
   ]
+},
+{
+  "fileMatch": [
+    "(^|/)([\\w-]*)composer\\.json$",
+    "(^|/)([\\w-]*)composer\\.json.dist$"
+  ],
+  "versioning": "composer"
 }
