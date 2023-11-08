@@ -2,33 +2,42 @@
 
 Docker running Nginx, PHP-FPM, Composer, MySQL and PHPMyAdmin.
 
+**TL;DR:**
+```sh
+brew install docker docker-compose
+git clone https://github.com/cathelijne/docker-nginx-php-mysql.git
+cd docker-nginx-php-mysql
+cp web/app/composer.json.dist web/app/composer.json
+docker-compose up -d #omit -d if you want to see logs
+```
+
 ## Overview
 
 1. [Install prerequisites](#install-prerequisites)
 
     Before installing project make sure the following prerequisites have been met.
 
-2. [Clone the project](#clone-the-project)
+1. [Clone the project](#clone-the-project)
 
     We’ll download the code from its repository on GitHub.
 
-3. [Configure Nginx With SSL Certificates](#configure-nginx-with-ssl-certificates) [`Optional`]
+1. [Configure Nginx With SSL Certificates](#configure-nginx-with-ssl-certificates) [`Optional`]
 
     We'll generate and configure SSL certificate for nginx before running server.
 
-4. [Configure Xdebug](#configure-xdebug) [`Optional`]
+1. [Configure Xdebug](#configure-xdebug) [`Optional`]
 
     We'll configure Xdebug for IDE (PHPStorm or Netbeans).
 
-5. [Run the application](#run-the-application)
+1. [Run the application](#run-the-application)
 
     By this point we’ll have all the project pieces in place.
 
-6. [Use Makefile](#use-makefile) [`Optional`]
+1. [Use Makefile](#use-makefile) [`Optional`]
 
     When developing, you can use `Makefile` for doing recurrent operations.
 
-7. [Use Docker Commands](#use-docker-commands)
+1. [Use Docker Commands](#use-docker-commands)
 
     When running, you can use docker commands for doing recurrent operations.
 
@@ -36,29 +45,11 @@ ___
 
 ## Install prerequisites
 
-To run the docker commands without using **sudo** you must add the **docker** group to **your-user**:
-
-```
-sudo usermod -aG docker your-user
-```
-
-For now, this project has been mainly created for Unix `(Linux/MacOS)`. Perhaps it could work on Windows.
-
-All requisites should be available for your distribution. The most important are :
-
-* [Git](https://git-scm.com/downloads)
-* [Docker](https://docs.docker.com/engine/installation/)
-* [Docker Compose](https://docs.docker.com/compose/install/)
-
-Check if `docker-compose` is already installed by entering the following command : 
+You need `docker` and `docker compose` installed on your machine.
 
 ```sh
-which docker-compose
+brew install docker docker-compose
 ```
-
-Check Docker Compose compatibility :
-
-* [Compose file version 3 reference](https://docs.docker.com/compose/compose-file/)
 
 The following is optional but makes life more enjoyable :
 
@@ -75,8 +66,8 @@ sudo apt install build-essential
 ### Images to use
 
 * [Nginx](https://hub.docker.com/_/nginx/)
-* [MySQL](https://hub.docker.com/_/mysql/)
-* [PHP-FPM](https://hub.docker.com/r/nanoninja/php-fpm/)
+* [MySQL](https://hub.docker.com/_/mariadb/)
+* [PHP-FPM](https://hub.docker.com/_/php/)
 * [Composer](https://hub.docker.com/_/composer/)
 * [PHPMyAdmin](https://hub.docker.com/r/phpmyadmin/phpmyadmin/)
 * [Generate Certificate](https://hub.docker.com/r/jacoelho/generate-certificate/)
@@ -85,12 +76,12 @@ You should be careful when installing third party web servers such as MySQL or N
 
 This project use the following ports :
 
-| Server     | Port |
-|------------|------|
-| MySQL      | 8989 |
-| PHPMyAdmin | 8080 |
-| Nginx      | 8000 |
-| Nginx SSL  | 3000 |
+| Server       | Port |
+|--------------|------|
+| MySQL        | 8989 |
+| PHPMyAdmin   | 8080 |
+| Nginx        | 8000 |
+| *Nginx SSL*  | *3000* |
 
 ___
 
@@ -99,7 +90,7 @@ ___
 To install [Git](http://git-scm.com/book/en/v2/Getting-Started-Installing-Git), download it and install following the instructions :
 
 ```sh
-git clone https://github.com/nanoninja/docker-nginx-php-mysql.git
+git clone https://github.com/cathelijne/docker-nginx-php-mysql.git
 ```
 
 Go to the project directory :
@@ -141,8 +132,8 @@ cd docker-nginx-php-mysql
 ```
 
 ___
-
-## Configure Nginx With SSL Certificates
+<details>
+<summary>## OPTIONAL: Configure Nginx With SSL Certificates</summary>
 
 You can change the host name by editing the `.env` file.
 
@@ -169,10 +160,12 @@ If you modify the host name, do not forget to add it to the `/etc/hosts` file.
     #     ...
     # }
     ```
+</details>
 
 ___
 
-## Configure Xdebug
+<details>
+<summary>## OPTIONAL Configure Xdebug</summary>
 
 If you use another IDE than [PHPStorm](https://www.jetbrains.com/phpstorm/) or [Netbeans](https://netbeans.org/), go to the [remote debugging](https://xdebug.org/docs/remote) section of Xdebug documentation.
 
@@ -191,11 +184,13 @@ For a better integration of Docker to PHPStorm, use the [documentation](https://
     ```sh
     xdebug.remote_host=192.168.0.1 # your IP
     ```
+</details>
+
 ___
 
 ## Run the application
 
-1. Copying the composer configuration file : 
+1. Copying the composer configuration file :
 
     ```sh
     cp web/app/composer.json.dist web/app/composer.json
@@ -213,11 +208,19 @@ ___
     docker-compose logs -f # Follow log output
     ```
 
+    OR
+
+    ```sh
+    docker-compose up # Without -d detached mode
+    ```
+
+    This will keep docker-compose in the foreground and tail the logs. To stop, hit Ctrl-C.
+
 3. Open your favorite browser :
 
     * [http://localhost:8000](http://localhost:8000/)
-    * [https://localhost:3000](https://localhost:3000/) ([HTTPS](#configure-nginx-with-ssl-certificates) not configured by default)
-    * [http://localhost:8080](http://localhost:8080/) PHPMyAdmin (username: dev, password: dev)
+    * [https://localhost:3000](https://localhost:3000/) ([HTTPS](#configure-nginx-with-ssl-certificates) -- *not* configured by default)
+    * [http://localhost:8080](http://localhost:8080/) PHPMyAdmin (host: mysqldb, username: dev, password: dev)
 
 4. Stop and clear services
 
@@ -227,7 +230,8 @@ ___
 
 ___
 
-## Use Makefile
+<details>
+<summpary>## OPTIONAL: Use Makefile (needs make installed)</summary>
 
 When developing, you can use [Makefile](https://en.wikipedia.org/wiki/Make_(software)) for doing the following operations :
 
@@ -259,6 +263,7 @@ Show help :
 ```sh
 make help
 ```
+</details>
 
 ___
 
